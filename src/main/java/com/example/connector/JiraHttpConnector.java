@@ -4,6 +4,7 @@ import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.api.domain.BasicProject;
 import com.atlassian.jira.rest.client.api.domain.Project;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
+import com.atlassian.jira.rest.client.api.domain.User;
 import com.atlassian.jira.rest.client.internal.async.AsynchronousJiraRestClientFactory;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -56,5 +57,11 @@ public class JiraHttpConnector {
 
     public SearchResult searchJql(String query) {
         return this.rest().getSearchClient().searchJql(query).claim();
+    }
+
+    public List<User> findUsers(String username) {
+        List<User> users = new ArrayList<>();
+        this.rest().getUserClient().findUsers(username).claim().forEach(users::add);
+        return users;
     }
 }
